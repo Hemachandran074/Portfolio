@@ -1,0 +1,356 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   Font faces — two-typeface system
+   Thunder → display headings (Black LC, Extra Bold LC)
+   Delight → body / UI text (Light, Regular, Medium, Semi Bold)
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Thunder';
+  src: url('./assets/fonts/Thunder-BlackLC.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Thunder';
+  src: url('./assets/fonts/Thunder-ExtraBoldLC.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Delight';
+  src: url('./assets/fonts/delight-light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Delight';
+  src: url('./assets/fonts/delight-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Delight';
+  src: url('./assets/fonts/delight-medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Delight';
+  src: url('./assets/fonts/delight-semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   Hemachandran Design System — theme tokens
+   Source: DesignInstruction/DESIGN.md (v. August 2026)
+   Reference canvas: 1440 x 1024. Fluid values are exact at 1440px and never
+   exceed the design value (1px @1440 === 0.069444vw).
+   ========================================================================== */
+
+@theme {
+  /* ---------- Typefaces ---------- */
+  --font-sans: 'Delight', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Delight', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Thunder', 'Arial Narrow', sans-serif;
+
+  /* ---------- Color: gray primitives ---------- */
+  --color-ds-gray-300: #4d4d4d;
+  --color-ds-gray-600: #6b6b6b;
+  --color-ds-gray-700: #505050;
+  --color-ds-gray-900: #404040;
+
+  /* ---------- Color: semantic ---------- */
+  --color-page: #ffffff; /* background/primary · surface · card */
+  --color-navbar: #6b6b6b; /* background/navbar   (gray/600) */
+  --color-overlay: #6b6b6b; /* background/overlay  (gray/600) */
+  --color-button: #404040; /* background/button   (gray/900) */
+  --color-project-card: #505050; /* background/project-card (gray/700) */
+  --color-ink: #000000; /* text/primary · interactive/primary */
+  --color-on-dark: #ffffff; /* text/on-dark · stroke/default */
+  --color-muted: #4d4d4d; /* text/secondary      (gray/300) */
+
+  /* Not in DESIGN.md. The design system is light-only, so this is the one
+     value invented to back the moon/sun toggle in the expanded menu. */
+  --color-page-dark: #08080c;
+
+  /* Hero floating navbar: light frosted row (reads light against the black
+     bottom of the hero gradient in the reference). */
+  --color-nav-frost: rgb(212 212 212 / 0.85);
+
+  /* ---------- Opacity ---------- */
+  --opacity-navbar: 0.68;
+  --opacity-overlay: 0.8;
+  --opacity-scrim: 0.5;
+
+  /* ---------- Type scale ---------- */
+  /* Display/Hero — Thunder Black LC 139px, +2% tracking, AUTO leading */
+  --text-hero: clamp(2.75rem, 9.6528vw, 139px);
+  --text-hero--line-height: 0.7;
+  --text-hero--letter-spacing: 0.02em;
+
+  /* Body/Subtitle — Delight Regular 16px, +2% tracking, 126% leading */
+  --text-subtitle: clamp(0.75rem, 1.1111vw, 16px);
+  --text-subtitle--line-height: 1.26;
+  --text-subtitle--letter-spacing: 0.02em;
+
+  /* Nav/Item — Delight Medium 10px, +2% tracking */
+  --text-nav-item: clamp(9px, 0.6944vw, 10px);
+  --text-nav-item--line-height: 1;
+  --text-nav-item--letter-spacing: 0.02em;
+
+  /* Display/Section — Thunder Black LC 128px (measured 120px line spacing) */
+  --text-section: clamp(3.25rem, 8.8889vw, 128px);
+  --text-section--line-height: 0.9375;
+
+  /* Display/Card Title — Thunder Black LC 90px */
+  --text-card-title: clamp(2.5rem, 6.25vw, 90px);
+  --text-card-title--line-height: 0.9;
+
+  /* Heading/Section Label — Thunder Extra Bold LC 32px, 126%, uppercase */
+  --text-section-label: clamp(1.5rem, 2.2222vw, 32px);
+  --text-section-label--line-height: 1.26;
+
+  /* Body/Name — Delight Regular 24px */
+  --text-name: clamp(1.125rem, 1.6667vw, 24px);
+  --text-name--line-height: 1.26;
+
+  /* Body/Default — Delight Regular 20px, 126% */
+  --text-body: clamp(0.9375rem, 1.3889vw, 20px);
+  --text-body--line-height: 1.26;
+
+  /* Body/Label — Delight Regular 15px */
+  --text-label: clamp(0.8125rem, 1.0417vw, 15px);
+  --text-label--line-height: 1.26;
+
+  /* Body/Button — Delight Semi Bold 16px, 126% */
+  --text-button: clamp(0.875rem, 1.1111vw, 16px);
+  --text-button--line-height: 1.26;
+
+  /* Caption/Default — Delight Regular 14px, 126% */
+  --text-caption: clamp(0.8125rem, 0.9722vw, 14px);
+  --text-caption--line-height: 1.26;
+
+  /* Body/Subtitle 13px variant — project detail card subtitle */
+  --text-card-sub: clamp(0.75rem, 0.9028vw, 13px);
+  --text-card-sub--line-height: 1.26;
+
+  /* Thumbnail hover title. Not in DESIGN.md: the reference shows the project
+     thumbnails as empty placeholders, so this is a Thunder size between
+     Card Title (90px) and Section Label (32px). */
+  --text-thumb-title: clamp(1.75rem, 3.4722vw, 50px);
+  --text-thumb-title--line-height: 0.9;
+
+  --leading-body: 1.26; /* 126% — body copy in content blocks */
+
+  /* ---------- Radius ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-2xl: 24px;
+
+  /* ---------- Spacing ---------- */
+  --spacing-2xs: 2px;
+  --spacing-xs: 6px;
+  --spacing-sm: 9px;
+  --spacing-md: 10px;
+  --spacing-base: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 23px;
+  --spacing-2xl: 25px;
+  --spacing-3xl: 52px;
+  --spacing-4xl: 54px;
+  --spacing-5xl: 57px;
+  --spacing-6xl: 72px;
+  --spacing-7xl: 111px;
+  --spacing-8xl: 117px;
+  --spacing-section: 244px;
+
+  /* ---------- Hero page geometry ----------
+     Insets are measured from inside the frame, which itself sits 10px in from
+     the page edge: hero-x = 47px (57px from the page edge, spacing/5xl),
+     hero-y = 40px (50px from the page edge). */
+  --spacing-hero-x: clamp(10px, 3.2639vw, 47px);
+  --spacing-hero-y: clamp(16px, 2.7778vw, 40px);
+  --spacing-hero-stack: clamp(8px, 1.0417vw, 15px); /* title → subtitle */
+  --spacing-meta: clamp(16px, 3.6111vw, 52px); /* spacing/3xl @1440 */
+  --spacing-pill: clamp(20px, 1.736vw, 25px); /* nav pill height */
+  --spacing-pill-inline: clamp(11px, 1.2153vw, 17.5px); /* nav pill padding */
+
+  /* ---------- Navbar geometry ----------
+     One shared width for both states, so opening the menu only animates
+     height. 494px matches Frame 18 (collapsed) and Frame 19 (expanded menu),
+     which are the same width in the design system.
+     Heights are declared here so CSS keeps owning the resting sizes and the
+     GSAP morph stays responsive. */
+  --spacing-navbar-top: clamp(16px, 2.9167vw, 42px);
+  --spacing-nav-w: min(494px, calc(100vw - 32px));
+  --spacing-navbar-h: clamp(48px, 3.8194vw, 55px);
+  --spacing-navmenu-h: min(691px, calc(100svh - 84px));
+  /* Menu body sits below the persistent header row. Fixed height so the
+     content does not reflow while the panel grows; it is revealed by the
+     panel's clip instead. */
+  --spacing-navmenu-body: calc(
+    var(--spacing-navmenu-h) - var(--spacing-navbar-h)
+  );
+
+  /* ---------- Projects page geometry ----------
+     The reference frames Projects as its own page, putting the heading cap-top
+     344px down. Here it follows the hero in one scroll, so that reads as dead
+     space: halved to 172px, which still clears the fixed navbar (42 + 55). */
+  --spacing-projects-top: clamp(80px, 11.9444vw, 172px);
+  --spacing-projects-lead: clamp(48px, 9.618vw, 138px);
+  --spacing-card-gap: clamp(14px, 2.0833vw, 30px);
+}
+
+/* Class-based dark mode, driven by the moon/sun toggle in the expanded menu. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Scrollbars hidden site-wide. Wheel, touch, keyboard and programmatic
+       scrolling all still work. */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-page);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-synthesis: none;
+  }
+
+  :where(.dark) body {
+    background-color: var(--color-page-dark);
+    color: var(--color-on-dark);
+  }
+}
+
+/* ==========================================================================
+   Custom utilities — only for values that cannot be expressed as utilities
+   ========================================================================== */
+
+/* Hero gradient. Layer order (top → bottom):
+   1. white bloom, top-right          5. black vignette from the bottom
+   2. light lavender band, right      6. deepest black, bottom-left corner
+   3. dark bottom-right corner        7. navy shade, top-left corner
+   4. violet glow, bottom-right       8. electric blue-violet core, left
+                                      9. indigo spread, top
+                                     10. base wash */
+@utility hero-gradient {
+  background-color: #05010f;
+  background-image:
+    radial-gradient(
+      44% 42% at 88% 7%,
+      rgb(255 255 255 / 1) 0%,
+      rgb(248 245 255 / 0.94) 12%,
+      rgb(219 205 248 / 0.66) 30%,
+      rgb(168 137 230 / 0.28) 52%,
+      rgb(96 62 184 / 0) 73%
+    ),
+    radial-gradient(
+      44% 86% at 102% 40%,
+      rgb(214 200 244 / 0.95) 0%,
+      rgb(180 150 236 / 0.72) 26%,
+      rgb(132 88 206 / 0.4) 52%,
+      rgb(74 40 140 / 0) 78%
+    ),
+    radial-gradient(
+      36% 32% at 104% 104%,
+      rgb(10 4 26 / 0.92) 0%,
+      rgb(14 6 34 / 0.5) 42%,
+      rgb(20 8 48 / 0) 76%
+    ),
+    radial-gradient(
+      52% 46% at 82% 78%,
+      rgb(128 60 216 / 0.88) 0%,
+      rgb(92 42 162 / 0.5) 46%,
+      rgb(40 16 80 / 0) 76%
+    ),
+    radial-gradient(
+      90% 54% at 30% 106%,
+      rgb(0 0 0 / 1) 0%,
+      rgb(0 0 0 / 0.96) 26%,
+      rgb(0 0 0 / 0.62) 52%,
+      rgb(0 0 0 / 0) 80%
+    ),
+    radial-gradient(
+      46% 46% at -6% 92%,
+      rgb(0 0 0 / 1) 0%,
+      rgb(0 0 0 / 0.74) 45%,
+      rgb(0 0 0 / 0) 78%
+    ),
+    radial-gradient(
+      26% 24% at -2% -4%,
+      rgb(12 4 54 / 0.88) 0%,
+      rgb(16 6 70 / 0.48) 44%,
+      rgb(20 8 90 / 0) 78%
+    ),
+    radial-gradient(
+      74% 64% at 2% 44%,
+      rgb(80 30 250 / 1) 0%,
+      rgb(58 18 228 / 0.92) 26%,
+      rgb(40 12 172 / 0.52) 52%,
+      rgb(20 6 80 / 0) 78%
+    ),
+    radial-gradient(
+      72% 52% at 34% 4%,
+      rgb(56 20 228 / 0.9) 0%,
+      rgb(38 14 168 / 0.56) 42%,
+      rgb(18 6 70 / 0) 74%
+    ),
+    linear-gradient(
+      165deg,
+      #1d0a86 0%,
+      #3a12d2 34%,
+      #4a1fb8 55%,
+      #1a0a44 78%,
+      #05010f 100%
+    );
+}
+
+/* Hides the scrollbar on an element that still scrolls. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Film grain overlay matching the noise texture in the reference. */
+@utility hero-grain {
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+}
