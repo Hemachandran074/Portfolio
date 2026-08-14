@@ -28,18 +28,17 @@ export type Project = {
  */
 export const projects: Project[] = [
   {
-    id: 'atlas',
-    title: 'Atlas',
-    subtitle: 'AI research assistant · 2026',
-    blurb: 'A research assistant that reads with you, not for you.',
+    id: 'TalentMap',
+    title: 'TalentMap',
+    subtitle: 'AI-powered campus recruitment platform',
+    blurb: 'AI-powered campus recruitment platform',
     body: [
-      'Atlas turns a sprawling reading list into a working map. It ingests papers, extracts claims and evidence, then lets you interrogate the corpus in plain language.',
-      'The retrieval layer is deliberately transparent: every answer cites the passage it came from, so the model stays a research instrument rather than an oracle. Built around a streaming inference pipeline that keeps latency under a second on commodity hardware.',
+      'TalentMap is an intercollege placement platform that helps placement coordinators identify the most suitable students for a job role using AI-powered semantic search instead of traditional keyword filtering. Recruiters or placement coordinators can then search for candidates using natural language queries and receive the most relevant matches.',
     ],
-    techStack: ['React', 'TypeScript', 'Python', 'FastAPI', 'pgvector', 'PostgreSQL'],
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Python', 'FastAPI', 'pgvector', 'PostgreSQL'],
     github: 'https://github.com/hemachandran/atlas',
-    image: '/placeholder1.png',
-    imageAlt: 'A lone figure on a glowing hillside beneath an enormous planet',
+    image: './src/assets/projects/TalentMap/TalentMap.jpg',
+    imageAlt: 'TalentMap',
     gallery: [
       { src: '/placeholder2.png', alt: 'Atlas corpus map view' },
       { src: '/placeholder3.jpg', alt: 'Atlas citation panel with source passages' },
@@ -55,7 +54,7 @@ export const projects: Project[] = [
     ],
     techStack: ['Python', 'FastAPI', 'Neo4j', 'React 19', 'TypeScript', 'Docker', ],
     github: 'https://github.com/Hemachandran074/GovernanceGraphBuilder',
-    image: '/placeholder2.png',
+    image: './src/assets/projects/GovernanceGraphBuilder/GovernanceGraphBuilder.png',
     imageAlt: 'Abstract layered composition used as the project thumbnail',
     gallery: [
       { src: './src/assets/projects/GovernanceGraphBuilder/image1.png', alt: 'Signal unified request timeline' },

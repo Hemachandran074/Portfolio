@@ -15,9 +15,47 @@ const MORPH_EASE = 'power2.inOut'
 /** Must match the `theme-switching` transition duration in index.css. */
 const THEME_SWITCH_MS = 400
 
-/** Shared by the three carousel slots: 366x233 card, 79% of the panel width. */
-const CARD = 'absolute top-1/2 left-1/2 aspect-[366/233] w-[79%]'
-const CARD_FACE = 'block size-full overflow-hidden rounded-2xl bg-page'
+/* ---------------- Carousel ---------------- */
+
+const AUTOPLAY_MS = 3000
+/** Within the 500-700ms brief; power2.inOut approximates CSS ease-in-out. */
+const SLIDE_DURATION = 0.6
+const SLIDE_EASE = 'power2.inOut'
+
+const TOTAL = projects.length
+/**
+ * Two clones at each end, so a neighbour always peeks in even on the frame
+ * where the track is sitting on a clone. One clone would leave the far edge
+ * empty at the wrap point.
+ */
+const CLONES = 2
+const slides = [
+  ...projects.slice(-CLONES),
+  ...projects,
+  ...projects.slice(0, CLONES),
+]
+
+/** Real project index for a track position. */
+const indexAt = (pos: number) => (((pos - CLONES) % TOTAL) + TOTAL) % TOTAL
+
+/**
+ * Maps a clone position onto its identical real position. Applied only after a
+ * transition settles, so the reposition lands on a visually identical frame and
+ * cannot be seen.
+ */
+const normalise = (pos: number) => {
+  if (pos >= TOTAL + CLONES) return pos - TOTAL
+  if (pos < CLONES) return pos + TOTAL
+  return pos
+}
+
+/**
+ * A slide. The aspect ratio sets the height, so no explicit height utility may
+ * appear here: `size-full`'s `height: 100%` would override `aspect-ratio` and
+ * stretch the card to the full viewport height.
+ */
+const SLIDE =
+  'w-slide shrink-0 aspect-[366/233] overflow-hidden rounded-2xl bg-page'
 const FOCUS_RING =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-dark'
 const ICON_SWAP =
@@ -46,11 +84,20 @@ function Navbar() {
       until the hero has scrolled past. */
   const [revealed, setRevealed] = useState(false)
 
+  /** True while the pointer is over the carousel, or focus is inside it. */
+  const [paused, setPaused] = useState(false)
+
   const headerRef = useRef<HTMLElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
-  const frontFaceRef = useRef<HTMLDivElement>(null)
+  const viewportRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
   const captionRef = useRef<HTMLDivElement>(null)
+  /**
+   * Track position, including clones. Held in a ref because the transform is
+   * driven imperatively by GSAP; `index` is the derived value React renders.
+   */
+  const trackPos = useRef(CLONES)
   /** Panel height captured before React swaps the state class. */
   const fromHeight = useRef<number | null>(null)
   const carouselReady = useRef(false)
@@ -193,7 +240,140 @@ function Navbar() {
     { dependencies: [open] },
   )
 
-  // Carousel step. Skipped on first render so it does not fight the open
+  /**
+   * Pixel geometry of the track, measured rather than expressed in percentages:
+   * a flex track's own width is the sum of its slides, so percentage offsets
+   * would resolve against the wrong box. `step` comes from the gap between two
+   * slides' offsets, so it includes the CSS gap without hardcoding it.
+   */
+  const geometry = useCallback(() => {
+    const viewport = viewportRef.current
+    const track = trackRef.current
+    if (!viewport || !track || track.children.length < 2) return null
+
+    const first = track.children[0] as HTMLElement
+    const second = track.children[1] as HTMLElement
+    const step = second.offsetLeft - first.offsetLeft
+    if (!step) return null
+
+    return { step, centre: (viewport.clientWidth - first.offsetWidth) / 2 }
+  }, [])
+
+  /** Depth cue: the centred slide sits forward, its neighbours fall back. */
+  const applyDepth = useCallback((pos: number, animate: boolean) => {
+    const track = trackRef.current
+    if (!track) return
+
+    Array.from(track.children).forEach((node, i) => {
+      const slide = node as HTMLElement
+      const offset = i - pos
+      const isActive = offset === 0
+      const vars = {
+        scale: isActive ? 1 : 0.9,
+        rotate: isActive ? 0 : offset < 0 ? -5 : 5,
+        opacity: isActive ? 1 : 0.55,
+      }
+      slide.style.zIndex = isActive ? '2' : '1'
+
+      if (animate) {
+        gsap.to(slide, {
+          ...vars,
+          duration: SLIDE_DURATION,
+          ease: SLIDE_EASE,
+          overwrite: 'auto',
+        })
+      } else {
+        gsap.set(slide, vars)
+      }
+    })
+  }, [])
+
+  /**
+   * Moves the track to `pos`. On landing on a clone, the position is remapped
+   * to its real twin with no tween, which is invisible because the two frames
+   * are identical. `overwrite` keeps rapid clicks from stacking tweens.
+   */
+  const slideTo = useCallback(
+    (pos: number, animate: boolean) => {
+      const track = trackRef.current
+      const box = geometry()
+      if (!track || !box) return
+
+      const settle = () => {
+        const next = normalise(pos)
+        if (next === pos) return
+        trackPos.current = next
+        gsap.set(track, { x: box.centre - next * box.step })
+        applyDepth(next, false)
+      }
+
+      if (!animate || prefersReducedMotion()) {
+        gsap.set(track, { x: box.centre - pos * box.step })
+        applyDepth(pos, false)
+        settle()
+        return
+      }
+
+      applyDepth(pos, true)
+      gsap.to(track, {
+        x: box.centre - pos * box.step,
+        duration: SLIDE_DURATION,
+        ease: SLIDE_EASE,
+        overwrite: 'auto',
+        onComplete: settle,
+      })
+    },
+    [applyDepth, geometry],
+  )
+
+  const step = useCallback(
+    (delta: number) => {
+      const pos = trackPos.current + delta
+      trackPos.current = pos
+      setIndex(indexAt(pos))
+      slideTo(pos, true)
+    },
+    [slideTo],
+  )
+
+  const goTo = useCallback(
+    (target: number) => {
+      if (target === index) return
+      const pos = target + CLONES
+      trackPos.current = pos
+      setIndex(target)
+      slideTo(pos, true)
+    },
+    [index, slideTo],
+  )
+
+  /**
+   * Settle the track without a tween. A ResizeObserver rather than a mount
+   * effect plus a resize listener: it fires once on observe and again on every
+   * later size change, so if the slides have not been laid out yet at mount the
+   * position is simply recomputed when they are. Nothing depends on catching a
+   * single correct frame.
+   */
+  useEffect(() => {
+    const viewport = viewportRef.current
+    if (!viewport) return
+
+    const observer = new ResizeObserver(() =>
+      slideTo(trackPos.current, false),
+    )
+    observer.observe(viewport)
+    return () => observer.disconnect()
+  }, [slideTo])
+
+  // Auto-rotate. Keyed on `index` so any manual navigation restarts the wait,
+  // and torn down while closed, paused, or under reduced motion.
+  useEffect(() => {
+    if (!open || paused || prefersReducedMotion()) return
+    const timer = window.setTimeout(() => step(1), AUTOPLAY_MS)
+    return () => window.clearTimeout(timer)
+  }, [open, paused, index, step])
+
+  // Caption cross-fade. Skipped on first render so it does not fight the open
   // stagger, which already reveals these elements.
   useGSAP(
     () => {
@@ -204,11 +384,6 @@ function Navbar() {
       if (prefersReducedMotion()) return
 
       gsap.fromTo(
-        frontFaceRef.current,
-        { scale: 0.955, autoAlpha: 0.35 },
-        { scale: 1, autoAlpha: 1, duration: 0.35, ease: 'power2.out' },
-      )
-      gsap.fromTo(
         captionRef.current,
         { autoAlpha: 0, y: 8 },
         { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' },
@@ -217,10 +392,7 @@ function Navbar() {
     { dependencies: [index] },
   )
 
-  const total = projects.length
   const active = projects[index]
-  const previous = projects[(index - 1 + total) % total]
-  const following = projects[(index + 1) % total]
 
   return (
     <header
@@ -271,47 +443,58 @@ function Navbar() {
             Latest Projects
           </p>
 
-          {/* Carousel: active card in front, neighbours fanned behind. */}
-          <div data-menu-item className="relative mt-[22px] min-h-0 flex-1">
-            <button
-              type="button"
-              onClick={() => setIndex((index - 1 + total) % total)}
-              aria-label={`Show previous project, ${previous.title}`}
-              className={`${CARD} z-10 translate-x-[-61%] translate-y-[-50%] -rotate-6 ${FOCUS_RING}`}
-            >
-              <span className={CARD_FACE}>
-                <img
-                  src={previous.image}
-                  alt=""
-                  className="size-full object-cover"
-                />
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIndex((index + 1) % total)}
-              aria-label={`Show next project, ${following.title}`}
-              className={`${CARD} z-10 translate-x-[-39%] translate-y-[-50%] rotate-6 ${FOCUS_RING}`}
-            >
-              <span className={CARD_FACE}>
-                <img
-                  src={following.image}
-                  alt=""
-                  className="size-full object-cover"
-                />
-              </span>
-            </button>
-
-            <div className={`${CARD} z-20 -translate-x-1/2 -translate-y-1/2`}>
-              <div ref={frontFaceRef} className={CARD_FACE}>
-                <img
-                  src={active.image}
-                  alt={active.imageAlt}
-                  className="size-full object-cover"
-                />
+          {/* Carousel. The track translates in pixels; the slides themselves
+              never move in layout, so nothing reflows mid-transition. Hovering
+              or focusing anywhere in here holds the auto-rotation. */}
+          <div
+            data-menu-item
+            className="relative mt-[22px] min-h-0 flex-1"
+            onPointerEnter={() => setPaused(true)}
+            onPointerLeave={() => setPaused(false)}
+            // pointercancel is the safety net: without it a touch that never
+            // reports leaving would hold the rotation paused for good.
+            onPointerCancel={() => setPaused(false)}
+            onFocusCapture={() => setPaused(true)}
+            onBlurCapture={() => setPaused(false)}
+          >
+            <div ref={viewportRef} className="absolute inset-0 overflow-hidden">
+              <div
+                ref={trackRef}
+                className="flex h-full items-center gap-slide-gap will-change-transform"
+              >
+                {slides.map((project, i) => (
+                  <div
+                    key={`${project.id}-${i}`}
+                    // Decorative: the caption below carries the project name and
+                    // announces changes, so clones add no duplicate alt text.
+                    aria-hidden="true"
+                    className={SLIDE}
+                  >
+                    <img
+                      src={project.image}
+                      alt=""
+                      draggable={false}
+                      className="size-full object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
+
+            {/* Hit areas over the peeking neighbours, so clicking a side card
+                still navigates the way it used to. */}
+            <button
+              type="button"
+              onClick={() => step(-1)}
+              aria-label="Show previous project"
+              className={`absolute inset-y-0 left-0 z-30 w-[11%] cursor-pointer rounded-l-2xl ${FOCUS_RING}`}
+            />
+            <button
+              type="button"
+              onClick={() => step(1)}
+              aria-label="Show next project"
+              className={`absolute inset-y-0 right-0 z-30 w-[11%] cursor-pointer rounded-r-2xl ${FOCUS_RING}`}
+            />
           </div>
 
           <div
@@ -342,7 +525,7 @@ function Navbar() {
               <button
                 key={project.id}
                 type="button"
-                onClick={() => setIndex(i)}
+                onClick={() => goTo(i)}
                 aria-label={`Show ${project.title}`}
                 aria-current={i === index ? 'true' : undefined}
                 className={`h-2 rounded-[3.8px] transition-[width,background-color] duration-250 motion-reduce:transition-none ${FOCUS_RING} ${

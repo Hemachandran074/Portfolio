@@ -226,6 +226,12 @@
   --spacing-navmenu-body: calc(
     var(--spacing-navmenu-h) - var(--spacing-navbar-h)
   );
+  /* Carousel slide: 366px at desktop, matching the reference card. Derived
+     from the panel width rather than a percentage of the flex track, because a
+     percentage width inside an auto-width flex container is circular. The menu
+     body's px-base padding is the 32px. */
+  --spacing-slide: calc((min(494px, 100vw - 32px) - 32px) * 0.792);
+  --spacing-slide-gap: 14px;
 
   /* ---------- Projects page geometry ----------
      The reference frames Projects as its own page, putting the heading cap-top
