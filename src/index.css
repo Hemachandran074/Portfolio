@@ -98,7 +98,7 @@
 
   /* ---------- Type scale ---------- */
   /* Display/Hero — Thunder Black LC 139px, +2% tracking, AUTO leading */
-  --text-hero: clamp(2.75rem, 9.6528vw, 139px);
+  --text-hero: clamp(2.75rem, 8.3333vw, 120px);
   --text-hero--line-height: 0.7;
   --text-hero--letter-spacing: 0.02em;
 
@@ -124,9 +124,27 @@
   --text-section-label: clamp(1.5rem, 2.2222vw, 32px);
   --text-section-label--line-height: 1.26;
 
+  /* Heading/Callout — Delight Medium 36px */
+  --text-callout: clamp(1.25rem, 2.5vw, 36px);
+  --text-callout--line-height: 1.26;
+
+  /* Heading/Title — Delight Medium 32px */
+  --text-title: clamp(1.25rem, 2.2222vw, 32px);
+  --text-title--line-height: 1.26;
+
   /* Body/Name — Delight Regular 24px */
   --text-name: clamp(1.125rem, 1.6667vw, 24px);
   --text-name--line-height: 1.26;
+
+  /* Body/Large — Delight Regular 24px, 126%. Same size as Body/Name; kept
+     separate because this one is reading copy, not a label. */
+  --text-large: clamp(0.9375rem, 1.6667vw, 24px);
+  --text-large--line-height: 1.26;
+
+  /* About entry lines — 16px at 0 tracking (Body/Subtitle carries +2%, which
+     the design system limits to hero text and nav items). */
+  --text-entry: clamp(0.8125rem, 1.1111vw, 16px);
+  --text-entry--line-height: 1.26;
 
   /* Body/Default — Delight Regular 20px, 126% */
   --text-body: clamp(0.9375rem, 1.3889vw, 20px);
@@ -216,6 +234,19 @@
   --spacing-projects-top: clamp(80px, 11.9444vw, 172px);
   --spacing-projects-lead: clamp(48px, 9.618vw, 138px);
   --spacing-card-gap: clamp(14px, 2.0833vw, 30px);
+
+  /* ---------- About page geometry (1440x2308 reference) ----------
+     Content column 866px wide (set by the tech-stack grid, which fits exactly
+     11 icons per row at these sizes). Major sections sit spacing/6xl apart and
+     entries spacing/xl apart, per the design system. */
+  --spacing-about-top: clamp(80px, 11.9444vw, 172px);
+  --spacing-about-meta: clamp(104px, 15.625vw, 225px); /* entry left column */
+  --spacing-about-cta: clamp(72px, 10.0694vw, 145px); /* icon grid → CTA */
+  --spacing-entry-line: clamp(8px, 0.9722vw, 14px);
+  --spacing-links: clamp(40px, 7.7083vw, 111px); /* social links row gap */
+  --spacing-icon: clamp(34px, 3.3333vw, 48px); /* tech icon box */
+  --spacing-icon-x: clamp(16px, 2.2222vw, 32px);
+  --spacing-icon-y: clamp(22px, 3.0556vw, 44px);
 }
 
 /* Class-based dark mode, driven by the moon/sun toggle in the expanded menu. */

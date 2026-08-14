@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { EMAIL } from '../data/about'
 import { projects } from '../data/projects'
 import { useDismissable } from '../hooks/useDismissable'
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from './icons'
@@ -221,7 +222,7 @@ function Navbar() {
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
             aria-controls="nav-menu"
-            className={`absolute right-[13px] flex size-11 items-center justify-center rounded-xs text-on-dark ${FOCUS_RING}`}
+            className={`absolute right-[13px] flex size-11 items-center justify-center rounded-xs text-on-dark ${FOCUS_RING} cursor-pointer`}
           >
             <span className="relative flex size-6 items-center justify-center">
               <MenuIcon
@@ -342,7 +343,7 @@ function Navbar() {
               About
             </a>
             <a
-              href="mailto:hello@hemachandran.dev"
+              href={`mailto:${EMAIL}`}
               className={`flex h-[67px] flex-1 items-center justify-center rounded-sm bg-button text-name text-on-dark transition-colors duration-250 hover:bg-ink motion-reduce:transition-none ${FOCUS_RING}`}
             >
               Email
@@ -361,7 +362,7 @@ function Navbar() {
               onClick={() => setDark((value) => !value)}
               aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
               aria-pressed={dark}
-              className={`flex size-11 items-center justify-center rounded-xs text-on-dark ${FOCUS_RING}`}
+              className={`flex size-11 items-center justify-center rounded-xs text-on-dark cursor-pointer ${FOCUS_RING}`}
             >
               {dark ? <SunIcon /> : <MoonIcon />}
             </button>

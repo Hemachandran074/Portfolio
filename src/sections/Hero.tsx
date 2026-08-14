@@ -12,7 +12,12 @@ function Hero() {
   return (
     <main id="home" className="flex min-h-svh flex-col bg-page p-md">
       <div className="relative isolate flex flex-1 flex-col items-center justify-center overflow-hidden rounded-xl">
-        <div aria-hidden="true" className="hero-gradient absolute inset-0 z-0" />
+        {/* <div aria-hidden="true" className="hero-gradient absolute inset-0 z-0" /> */}
+        <div aria-hidden='true' className='absolute inset-0 z-0 object-cover scale-125 translate-y-[-42px]'>
+          <img 
+          src='/myself2.png'
+          />
+        </div>
         <div
           aria-hidden="true"
           className="hero-grain pointer-events-none absolute inset-0 z-10 opacity-[0.26] mix-blend-overlay"

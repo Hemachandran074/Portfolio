@@ -97,6 +97,31 @@ export function ArrowRightIcon({ className }: { className?: string }) {
   )
 }
 
+/**
+ * Thin diagonal arrow used inside the custom "Let's Connect" cursor. Drawn on
+ * a 32 grid with a light stroke so it keeps the proportions of the reference
+ * (arrow spans roughly half the circle, hairline weight).
+ */
+export function CursorArrowIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M9 23L23 9M13.5 9H23V18.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 /** Diagonal arrow for the outbound GitHub button. */
 export function ArrowUpRightIcon({ className }: { className?: string }) {
   return (
