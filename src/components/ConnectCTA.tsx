@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { EMAIL } from '../data/about'
+import MaskReveal from './MaskReveal'
 import { CursorArrowIcon } from './icons'
 
 gsap.registerPlugin(useGSAP)
@@ -105,9 +106,9 @@ function ConnectCTA({ className = '' }: { className?: string }) {
         onPointerEnter={handleEnter}
         onPointerMove={handleMove}
         onPointerLeave={hide}
-        className={`inline-block font-display text-section uppercase text-ink transition-[opacity,transform] duration-300 ease-in-out will-change-transform hover:-translate-y-[2px] hover:opacity-80 motion-reduce:transition-none motion-reduce:hover:translate-y-0 pointer-fine:cursor-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink dark:text-on-dark dark:focus-visible:outline-on-dark ${className}`}
+        className={`inline-block font-display text-section uppercase text-ink transition-[opacity,translate] duration-300 ease-in-out will-change-transform hover:-translate-y-[2px] hover:opacity-80 motion-reduce:transition-none motion-reduce:hover:translate-y-0 pointer-fine:cursor-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink dark:text-on-dark dark:focus-visible:outline-on-dark ${className}`}
       >
-        Let&rsquo;s Connect.
+        <MaskReveal as="span" lines={['Let’s Connect.']} />
       </a>
 
       {createPortal(

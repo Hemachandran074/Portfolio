@@ -1,5 +1,6 @@
 import ArrowLink from '../components/ArrowLink'
 import ConnectCTA from '../components/ConnectCTA'
+import MaskReveal from '../components/MaskReveal'
 import TechIcon from '../components/TechIcon'
 import {
   education,
@@ -87,14 +88,18 @@ function About() {
       {/* 906 - 2x20 padding leaves an 866px content box: the reference column
           width, and exactly wide enough for 11 icon boxes per row. */}
       <div className="mx-auto flex w-full max-w-[906px] flex-col px-lg">
-        <h2 className="text-center font-display text-section uppercase text-ink dark:text-on-dark">
-          <span className="block">About</span>
-          <span className="block">Me.</span>
-        </h2>
+        <MaskReveal
+          as="h2"
+          lines={['About', 'Me.']}
+          className="text-center font-display text-section uppercase text-ink dark:text-on-dark"
+        />
 
-        <p className="mt-5xl max-w-[830px] text-large text-ink dark:text-on-dark">
-          {intro}
-        </p>
+        <MaskReveal
+          as="p"
+          lines={[intro]}
+          stagger={{ amount: 0.6 }}
+          className="mt-5xl max-w-[830px] text-large text-ink dark:text-on-dark"
+        />
 
         <EntryGroup title="Education" entries={education} />
         <EntryGroup title="Organization" entries={organization} />
@@ -114,10 +119,12 @@ function About() {
         </section>
 
         <div className="mt-about-cta text-center">
-          <p className="text-callout font-medium text-ink dark:text-on-dark">
-            <span className="block">Want to reach out me or</span>
-            <span className="block">just want to say friendly hello?</span>
-          </p>
+          <MaskReveal
+            as="p"
+            lines={['Want to reach out me or', 'just want to say friendly hello?']}
+            stagger={{ amount: 0.4 }}
+            className="text-callout font-medium text-ink dark:text-on-dark"
+          />
 
           <ConnectCTA className="mt-8xl" />
 

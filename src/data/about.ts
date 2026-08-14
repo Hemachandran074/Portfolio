@@ -10,7 +10,20 @@ export const EMAIL = 'hello@hemachandran.dev'
  * (LangChain).
  */
 export type TechIcon =
-  | { kind: 'stack'; name: string }
+  | {
+      kind: 'stack'
+      name: string
+      /**
+       * Set for marks that are monochrome black and so vanish against the dark
+       * page. The package's `dark` variant of these is the white version, and
+       * TechIcon cross-fades to it on the dark theme.
+       *
+       * Only set this where the light variant is genuinely invisible. Several
+       * icons have a `dark` variant that replaces a brand colour with white
+       * (PyTorch's orange, for one), which is a downgrade rather than a fix.
+       */
+      swapOnDark?: boolean
+    }
   | { kind: 'local'; src: string }
 
 export type TechItem = {
@@ -26,20 +39,20 @@ export type TechItem = {
 export const techStack: TechItem[] = [
   { label: 'Python', icon: { kind: 'stack', name: 'python' } },
   { label: 'PyTorch', icon: { kind: 'stack', name: 'pytorch' } },
-  { label: 'Flask', icon: { kind: 'stack', name: 'flask' } },
+  { label: 'Flask', icon: { kind: 'stack', name: 'flask', swapOnDark: true } },
   { label: 'TensorFlow', icon: { kind: 'stack', name: 'tensorflow' } },
   { label: 'pandas', icon: { kind: 'stack', name: 'pandas' } },
   { label: 'LangChain', icon: { kind: 'local', src: langchainIcon } },
   { label: 'FastAPI', icon: { kind: 'local', src: fastapiIcon } },
   { label: 'Streamlit', icon: { kind: 'stack', name: 'streamlit' } },
   { label: 'Git', icon: { kind: 'stack', name: 'git' } },
-  { label: 'GitHub', icon: { kind: 'stack', name: 'github' } },
+  { label: 'GitHub', icon: { kind: 'stack', name: 'github', swapOnDark: true } },
   { label: 'MongoDB', icon: { kind: 'stack', name: 'mongodb' } },
   { label: 'Supabase', icon: { kind: 'stack', name: 'supabase' } },
   { label: 'JavaScript', icon: { kind: 'stack', name: 'js' } },
   { label: 'NumPy', icon: { kind: 'stack', name: 'numpy' } },
   { label: 'React', icon: { kind: 'stack', name: 'react' } },
-  { label: 'Ollama', icon: { kind: 'stack', name: 'ollama' } },
+  { label: 'Ollama', icon: { kind: 'stack', name: 'ollama', swapOnDark: true } },
   { label: 'Docker', icon: { kind: 'stack', name: 'docker' } },
   { label: 'PostgreSQL', icon: { kind: 'stack', name: 'postgresql' } },
   { label: 'Figma', icon: { kind: 'stack', name: 'figma' } },

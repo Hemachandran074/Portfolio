@@ -234,6 +234,18 @@
   --spacing-projects-top: clamp(80px, 11.9444vw, 172px);
   --spacing-projects-lead: clamp(48px, 9.618vw, 138px);
   --spacing-card-gap: clamp(14px, 2.0833vw, 30px);
+  /* Scroll stacking: where the first card pins (clears the fixed navbar at
+     42 + 55) and how much of each covered card stays visible above the next. */
+  --spacing-stack-top: clamp(70px, 7.7083vw, 111px);
+  --spacing-stack-peek: clamp(10px, 1.1111vw, 16px);
+
+  /* ---------- Project detail card ----------
+     Measured off the reference at 1129px card width: the copy block is inset
+     88px, while the gallery shots below sit much closer to the edge at
+     spacing/2xl, so they read wider than the text. */
+  --spacing-detail-x: 88px;
+  --spacing-shot-gap: 36px;
+  --aspect-shot: 1075 / 349;
 
   /* ---------- About page geometry (1440x2308 reference) ----------
      Content column 866px wide (set by the tech-stack grid, which fits exactly
@@ -283,6 +295,37 @@
   :where(.dark) body {
     background-color: var(--color-page-dark);
     color: var(--color-on-dark);
+  }
+}
+
+/* ==========================================================================
+   Theme switch
+   ==========================================================================
+   Eases every colour change while the theme is flipping. Deliberately not in
+   a @layer: unlayered rules outrank all layered ones, which is what lets this
+   override the `transition-*` utilities already on individual elements.
+
+   The `theme-switching` class is only present for the duration of the switch,
+   so the rest of the time each element keeps its own transition. Colour
+   properties only — transform and opacity are left alone so this never
+   interferes with the mask reveals or the card stacking. */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition-property: background-color, color, border-color, outline-color,
+    fill, stroke, text-decoration-color;
+  transition-duration: 400ms;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-switching,
+  html.theme-switching *,
+  html.theme-switching *::before,
+  html.theme-switching *::after {
+    transition-duration: 0s;
   }
 }
 

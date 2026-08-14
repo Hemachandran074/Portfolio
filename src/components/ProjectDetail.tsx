@@ -19,10 +19,14 @@ type ProjectDetailProps = {
  * radius/2xl, clipped.
  *
  * A white image panel sits flush at the top (1129x527, no rounding of its
- * own), with the close control over it. Everything else lives on the gray body
- * below in two columns: a narrow left column carrying the Display/Card Title,
- * its subtitle and the GitHub button, and a wide right column carrying the
- * body copy followed by the tech stack. Column gap is spacing/section.
+ * own), with the close control over it. The gray body below holds two columns:
+ * a narrow left column carrying the Display/Card Title, its subtitle and the
+ * GitHub button, and a wide right column carrying the body copy followed by
+ * the tech stack. Column gap is spacing/section.
+ *
+ * Below the copy, `project.gallery` renders one white card per screen. The
+ * list is unbounded — adding entries just grows the card, and the overlay
+ * scrolls.
  */
 function ProjectDetail({ project, onClose }: ProjectDetailProps) {
   const scrimRef = useRef<HTMLDivElement>(null)
@@ -102,21 +106,24 @@ function ProjectDetail({ project, onClose }: ProjectDetailProps) {
               type="button"
               onClick={requestClose}
               aria-label="Close project details"
-              className="absolute top-lg right-lg flex size-11 items-center justify-center rounded-full bg-page/85 text-ink backdrop-blur-sm transition-colors duration-250 hover:bg-page motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              className="absolute top-lg right-lg flex size-11 cursor-pointer items-center justify-center rounded-full bg-page/85 text-ink backdrop-blur-sm transition-colors duration-250 hover:bg-page motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink min-[900px]:top-[32px] min-[900px]:right-[32px]"
             >
               <CloseIcon />
             </button>
           </div>
 
-          {/* Gray body */}
-          <div className="px-2xl pt-6xl pb-7xl min-[900px]:px-6xl min-[900px]:pt-7xl min-[900px]:pb-section">
-            <div className="flex flex-col items-start gap-3xl min-[900px]:flex-row min-[900px]:gap-section">
+          {/* Gray body. The copy block and the gallery carry their own
+              horizontal insets, because the reference sets the shots much
+              closer to the card edge than the text. */}
+          <div className="pb-3xl min-[900px]:pb-5xl">
+            <div className="px-2xl pt-6xl min-[900px]:px-detail-x min-[900px]:pt-detail-x">
+              <div className="flex flex-col items-start gap-3xl min-[900px]:flex-row min-[900px]:gap-section">
               {/* Narrow enough that a two-word title wraps, as in the
                   reference. 215 + 244 gap puts the body copy at x=531. */}
               <div className="min-[900px]:w-[215px] min-[900px]:shrink-0">
                 <h2
                   id={`${project.id}-title`}
-                  className="font-display text-card-title font-black uppercase text-on-dark"
+                  className="font-display text-card-title font-bold uppercase text-on-dark"
                 >
                   {project.title}
                 </h2>
@@ -145,14 +152,35 @@ function ProjectDetail({ project, onClose }: ProjectDetailProps) {
                   </p>
                 ))}
 
-                <h3 className="mt-6xl font-display text-section-label font-extrabold uppercase text-on-dark">
-                  Tech Stack
-                </h3>
-                <p className="mt-base text-body font-light text-on-dark">
-                  {project.techStack.join(', ')}
-                </p>
+                  <h3 className="mt-6xl font-display text-section-label font-extrabold uppercase text-on-dark">
+                    Tech Stack
+                  </h3>
+                  <p className="mt-base text-body font-light text-on-dark">
+                    {project.techStack.join(', ')}
+                  </p>
+                </div>
               </div>
             </div>
+
+            {/* Gallery: one white card per screen, stacked. Grows with the
+                data, so adding images just makes the card taller. */}
+            {project.gallery.length > 0 && (
+              <div className="mt-6xl flex flex-col gap-lg px-lg min-[900px]:mt-detail-x min-[900px]:gap-shot-gap min-[900px]:px-2xl">
+                {project.gallery.map((shot) => (
+                  <div
+                    key={shot.src}
+                    className="aspect-shot w-full overflow-hidden rounded-xl bg-page"
+                  >
+                    <img
+                      src={shot.src}
+                      alt={shot.alt}
+                      loading="lazy"
+                      className="size-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

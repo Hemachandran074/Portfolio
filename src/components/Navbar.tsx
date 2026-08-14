@@ -12,6 +12,9 @@ gsap.registerPlugin(useGSAP)
 const MORPH_DURATION = 0.4
 const MORPH_EASE = 'power2.inOut'
 
+/** Must match the `theme-switching` transition duration in index.css. */
+const THEME_SWITCH_MS = 400
+
 /** Shared by the three carousel slots: 366x233 card, 79% of the panel width. */
 const CARD = 'absolute top-1/2 left-1/2 aspect-[366/233] w-[79%]'
 const CARD_FACE = 'block size-full overflow-hidden rounded-2xl bg-page'
@@ -51,6 +54,8 @@ function Navbar() {
   /** Panel height captured before React swaps the state class. */
   const fromHeight = useRef<number | null>(null)
   const carouselReady = useRef(false)
+  /** Skips the colour transition on the first render, when nothing changes. */
+  const themeReady = useRef(false)
 
   const captureHeight = () => {
     if (!panelRef.current) return
@@ -69,8 +74,26 @@ function Navbar() {
 
   useDismissable(open, close)
 
+  // Flip the theme, easing every colour change for the duration of the switch.
+  // The window is opened only around the flip so the site-wide colour
+  // transition never competes with per-element hover transitions.
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark)
+    const root = document.documentElement
+
+    if (!themeReady.current) {
+      themeReady.current = true
+      root.classList.toggle('dark', dark)
+      return
+    }
+
+    root.classList.add('theme-switching')
+    root.classList.toggle('dark', dark)
+
+    const timer = window.setTimeout(
+      () => root.classList.remove('theme-switching'),
+      THEME_SWITCH_MS,
+    )
+    return () => window.clearTimeout(timer)
   }, [dark])
 
   useEffect(() => {

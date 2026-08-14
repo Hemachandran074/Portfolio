@@ -11,8 +11,15 @@ export type Project = {
   body: string[]
   techStack: string[]
   github: string
+  /** Fills the white panel at the top of the detail card. */
   image: string
   imageAlt: string
+  /**
+   * Extra screens shown as full-width cards below the copy on the detail card.
+   * Add as many as you like — each one renders in its own white card, and the
+   * list simply grows the card taller.
+   */
+  gallery: { src: string; alt: string }[]
 }
 
 /**
@@ -33,20 +40,27 @@ export const projects: Project[] = [
     github: 'https://github.com/hemachandran/atlas',
     image: '/placeholder1.png',
     imageAlt: 'A lone figure on a glowing hillside beneath an enormous planet',
+    gallery: [
+      { src: '/placeholder2.png', alt: 'Atlas corpus map view' },
+      { src: '/placeholder3.jpg', alt: 'Atlas citation panel with source passages' },
+    ],
   },
   {
-    id: 'signal',
-    title: 'Signal',
-    subtitle: 'Realtime observability · 2025',
+    id: 'Governance Grpah Builder',
+    title: 'Governance Grpah Builder',
+    subtitle: 'Realtime observability · 2026',
     blurb: 'Traces, logs and metrics in one honest timeline.',
     body: [
-      'Signal collapses three separate debugging tools into a single timeline. Instead of correlating timestamps across dashboards, you scrub one track and watch requests, queries and cache misses line up.',
-      'The ingest path is built on a columnar store so a week of traces stays queryable without sampling, and the UI streams deltas over a single socket to keep the client cheap.',
+      'A governance graph that models agents, models, tools, users, data sources, and policies as connected nodes — making the full composition of any AI agent queryable, auditable, and visualizable in one place. Modern AI agents are compositions: an LLM, an orchestration layer, a set of tools, a memory store, and the data sources they can reach. Those pieces usually live in separate systems — the model in a registry, the tools undocumented, the data in a catalogue. When something goes wrong, no one can reconstruct what was connected to what. This project unifies those facts into a single graph and answers governance questions over it.',
     ],
-    techStack: ['TypeScript', 'Rust', 'ClickHouse', 'WebSockets', 'D3'],
-    github: 'https://github.com/hemachandran/signal',
+    techStack: ['Python', 'FastAPI', 'Neo4j', 'React 19', 'TypeScript', 'Docker', ],
+    github: 'https://github.com/Hemachandran074/GovernanceGraphBuilder',
     image: '/placeholder2.png',
     imageAlt: 'Abstract layered composition used as the project thumbnail',
+    gallery: [
+      { src: './src/assets/projects/GovernanceGraphBuilder/image1.png', alt: 'Signal unified request timeline' },
+      { src: './src/assets/projects/GovernanceGraphBuilder/image.png', alt: 'Signal trace detail with query breakdown' },
+    ],
   },
   {
     id: 'loom',
@@ -61,6 +75,10 @@ export const projects: Project[] = [
     github: 'https://github.com/hemachandran/loom',
     image: '/placeholder3.jpg',
     imageAlt: 'Abstract layered composition used as the project thumbnail',
+    gallery: [
+      { src: '/placeholder4.png', alt: 'Loom token documentation site' },
+      { src: '/placeholder1.png', alt: 'Loom drift-detection pull request' },
+    ],
   },
   {
     id: 'drift',
@@ -75,5 +93,9 @@ export const projects: Project[] = [
     github: 'https://github.com/hemachandran/drift',
     image: '/placeholder4.png',
     imageAlt: 'Abstract layered composition used as the project thumbnail',
+    gallery: [
+      { src: '/placeholder1.png', alt: 'Drift adaptive density study' },
+      { src: '/placeholder2.png', alt: 'Drift attention heatmap overlay' },
+    ],
   },
 ]
