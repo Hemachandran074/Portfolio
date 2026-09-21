@@ -94,7 +94,7 @@ function Projects() {
         ]}
         lineClassName="block max-[700px]:inline"
         stagger={{ amount: 0.5 }}
-        className="mt-[calc(clamp(4px,0.694vw,10px)*-1)] px-lg text-center text-subtitle uppercase text-ink dark:text-on-dark"
+        className="mt-[calc(clamp(4px,0.694vw,10px)*-1)] px-lg text-center text-subtitle text-ink dark:text-on-dark"
       />
 
       <div className="mx-auto mt-projects-lead w-full max-w-[901px] px-lg">

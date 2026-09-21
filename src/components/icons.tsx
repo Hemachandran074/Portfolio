@@ -122,6 +122,32 @@ export function CursorArrowIcon({ className }: { className?: string }) {
   )
 }
 
+/** Mouse body for the preloader's scroll cue; the wheel dot is composed
+    separately so it can be animated independently. */
+export function MouseOutlineIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 20 30"
+      width="20"
+      height="30"
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect
+        x="1"
+        y="1"
+        width="18"
+        height="28"
+        rx="9"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+    </svg>
+  )
+}
+
 /** Diagonal arrow for the outbound GitHub button. */
 export function ArrowUpRightIcon({ className }: { className?: string }) {
   return (

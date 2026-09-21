@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 .shots
 /DesignInstruction
+c.ps1
+out.txt

@@ -3,6 +3,12 @@ import langchainIcon from '../assets/icons/langchain.svg'
 
 export const EMAIL = 'hello@hemachandran.dev'
 
+/** Lives in /public, so it is served at the site root. */
+export const RESUME = {
+  href: '/Hemachandran_SB.pdf',
+  label: 'Resume',
+}
+
 /**
  * Where a tech icon comes from. `stack` names are keys in the
  * tech-stack-icons bundle; `local` entries are SVGs in src/assets/icons for
@@ -80,7 +86,7 @@ export const education: AboutEntry[] = [
     lines: [
       { text: 'B.Tech Artificial Intelligence and Machine Learning', tone: 'strong' },
       { text: 'Sri Shakthi Institute of Engineering and Technology' },
-      { text: 'Coimbatore, India', tone: 'muted' },
+      { text: 'Coimbatore, Tamil Nadu, India', tone: 'muted' },
     ],
   },
 ]

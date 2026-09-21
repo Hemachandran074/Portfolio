@@ -166,6 +166,10 @@
   --text-card-sub: clamp(0.75rem, 0.9028vw, 13px);
   --text-card-sub--line-height: 1.26;
 
+  /* Preloader percentage readout (1440x1024 reference). */
+  --text-pre: clamp(2.5rem, 5.9722vw, 86px);
+  --text-pre--line-height: 1;
+
   /* Thumbnail hover title. Not in DESIGN.md: the reference shows the project
      thumbnails as empty placeholders, so this is a Thunder size between
      Card Title (90px) and Section Label (32px). */
@@ -245,6 +249,27 @@
   --spacing-stack-top: clamp(70px, 7.7083vw, 111px);
   --spacing-stack-peek: clamp(10px, 1.1111vw, 16px);
 
+  /* ---------- Preloader ----------
+     Measured off the reference at 1440 wide: the readout sits 64px in and 76px
+     down, and the rule is 24px thick. */
+  --spacing-pre-x: clamp(20px, 4.4444vw, 64px);
+  --spacing-pre-y: clamp(28px, 5.2778vw, 76px);
+  --spacing-pre-line: clamp(6px, 1.6667vw, 24px);
+
+  --animate-scroll-hint: scroll-hint 1.8s ease-in-out infinite;
+
+  @keyframes scroll-hint {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 0.35;
+    }
+  }
+
   /* ---------- Project detail card ----------
      Measured off the reference at 1129px card width: the copy block is inset
      88px, while the gallery shots below sit much closer to the edge at
@@ -272,21 +297,15 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
-    /* Scrollbars hidden site-wide. Wheel, touch, keyboard and programmatic
-       scrolling all still work. */
+    /* No `scroll-behavior: smooth` here: Lenis owns scrolling now, and the two
+       fight each other. Hash links are routed through Lenis in SmoothScroll,
+       and Lenis honours prefers-reduced-motion itself. */
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
 
   html::-webkit-scrollbar {
     display: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
   }
 
   body {

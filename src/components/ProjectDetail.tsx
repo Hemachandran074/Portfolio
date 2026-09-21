@@ -83,7 +83,10 @@ function ProjectDetail({ project, onClose }: ProjectDetailProps) {
         className="fixed inset-0 bg-ink/50 backdrop-blur-sm"
       />
 
-      <div className="relative flex min-h-full items-start justify-center p-lg">
+      <div
+        data-lenis-prevent
+        className="relative flex min-h-full items-start justify-center p-lg"
+      >
         <div
           ref={cardRef}
           role="dialog"

@@ -13,9 +13,11 @@ function Hero() {
     <main id="home" className="flex min-h-svh flex-col bg-page p-md">
       <div className="relative isolate flex flex-1 flex-col items-center justify-center overflow-hidden rounded-xl">
         {/* <div aria-hidden="true" className="hero-gradient absolute inset-0 z-0" /> */}
-        <div aria-hidden='true' className='absolute inset-0 z-0 object-cover scale-125 translate-y-[-42px]'>
-          <img 
-          src='/myself2.png'
+        <div aria-hidden="true" className="absolute inset-0 z-0">
+          <img
+            src="/myself2.png"
+            alt=""
+            className="size-full object-cover object-center"
           />
         </div>
         <div
@@ -29,7 +31,7 @@ function Hero() {
           </h1>
           {/* Each line is its own block so the desktop line breaks match the
               design exactly; below 700px they go inline and wrap naturally. */}
-          <p className="text-subtitle uppercase text-on-dark max-[700px]:max-w-[38ch]">
+          <p className="text-subtitle text-on-dark max-[700px]:max-w-[38ch]">
             <span className="block max-[700px]:inline">
               Working at the intersection of AI, design and technology to{' '}
             </span>

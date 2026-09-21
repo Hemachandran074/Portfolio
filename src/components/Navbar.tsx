@@ -474,6 +474,13 @@ function Navbar() {
                       src={project.image}
                       alt=""
                       draggable={false}
+                      // Behind a collapsed panel at boot, so the preloader does
+                      // not hold the entrance on ~1.5MB nobody can see yet.
+                      // Not `loading="lazy"`: these sit inside the viewport, so
+                      // the browser would fetch them anyway and the attribute
+                      // buys nothing. They download in the background; they
+                      // just are not a gate.
+                      data-preload-skip
                       className="size-full object-cover"
                     />
                   </div>

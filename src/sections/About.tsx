@@ -1,16 +1,22 @@
+import { useCallback, useRef, useState, type PointerEvent } from 'react'
+import { gsap } from 'gsap'
+import { useGSAP } from '@gsap/react'
 import ArrowLink from '../components/ArrowLink'
 import ConnectCTA from '../components/ConnectCTA'
 import MaskReveal from '../components/MaskReveal'
+import ResumeCard from '../components/ResumeCard'
 import TechIcon from '../components/TechIcon'
 import {
   education,
-  intro,
   organization,
+  RESUME,
   socialLinks,
   techStack,
   type AboutEntry,
   type EntryLine,
 } from '../data/about'
+
+gsap.registerPlugin(useGSAP)
 
 const LINE_TONE: Record<NonNullable<EntryLine['tone']>, string> = {
   strong: 'font-semibold text-ink dark:text-on-dark',
@@ -73,6 +79,106 @@ function EntryGroup({
   )
 }
 
+function InteractiveIntro() {
+  const previewRef = useRef<HTMLImageElement>(null)
+  const moveX = useRef<gsap.QuickToFunc | null>(null)
+  const moveY = useRef<gsap.QuickToFunc | null>(null)
+  const tracking = useRef(false)
+
+  useGSAP(() => {
+    const preview = previewRef.current
+    if (!preview) return
+
+    gsap.set(preview, {
+      xPercent: -50,
+      yPercent: -50,
+      scale: 0.86,
+      autoAlpha: 0,
+      rotation: 0,
+    })
+    moveX.current = gsap.quickTo(preview, 'x', {
+      duration: 0.75,
+      ease: 'power3.out',
+    })
+    moveY.current = gsap.quickTo(preview, 'y', {
+      duration: 0.75,
+      ease: 'power3.out',
+    })
+  }, [])
+
+  const hidePreview = useCallback(() => {
+    if (!tracking.current) return
+    tracking.current = false
+    gsap.killTweensOf(previewRef.current, 'rotation')
+    gsap.to(previewRef.current, {
+      scale: 0.86,
+      autoAlpha: 0,
+      duration: 0.55,
+      ease: 'power2.inOut',
+      overwrite: 'auto',
+    })
+  }, [])
+
+  const updatePreview = (event: PointerEvent<HTMLSpanElement>) => {
+    if (event.pointerType !== 'mouse') return
+    const halfWidth = 75
+    const halfHeight = 110
+    const gap = 24
+    const x = Math.max(halfWidth, Math.min(event.clientX + 28, window.innerWidth - halfWidth))
+    const y = Math.max(halfHeight, Math.min(event.clientY - halfHeight - gap, window.innerHeight - halfHeight))
+
+    if (!tracking.current) {
+      tracking.current = true
+      gsap.set(previewRef.current, { x, y, rotation: 0 })
+      gsap.to(previewRef.current, {
+        scale: 1,
+        autoAlpha: 1,
+        duration: 0.65,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      })
+      gsap.to(previewRef.current, {
+        rotation: 0.7,
+        duration: 2.8,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        overwrite: 'auto',
+      })
+    }
+
+    moveX.current?.(x)
+    moveY.current?.(y)
+  }
+
+  return (
+    <p className="group mt-5xl max-w-[830px] text-large text-ink dark:text-on-dark">
+      <span
+        className="cursor-default bg-[#E3DACC] px-[0.08em] py-[0.02em]"
+        onPointerEnter={updatePreview}
+        onPointerMove={updatePreview}
+        onPointerLeave={hidePreview}
+      >
+        I'm an AI &amp; ML engineering student
+      </span>{' '}
+      focused on turning complex technology into useful products. My work spans
+      machine learning, Generative AI, RAG, AI agents and full-stack
+      applications. I'm exploring how AI can move beyond models and become
+      part of real-world products. With a strong interest in product and web
+      design, I care about how technology looks, feels and works. I build,
+      experiment and learn at the intersection of AI, software and design.
+
+      <img
+        ref={previewRef}
+        src="/mine.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 z-50 hidden h-[220px] w-[150px] rounded-[22px] border-[3px] border-[#E3DACC] object-cover shadow-lg will-change-transform min-[701px]:block"
+      />
+    </p>
+  )
+}
+
 /**
  * About Me page (1440x2308 reference).
  * White background, centered Display/Section heading, then a left-aligned
@@ -80,6 +186,9 @@ function EntryGroup({
  * and a centered CTA closing with "Let's Connect.".
  */
 function About() {
+  const [resumeOpen, setResumeOpen] = useState(false)
+  const closeResume = useCallback(() => setResumeOpen(false), [])
+
   return (
     <section
       id="about"
@@ -94,12 +203,7 @@ function About() {
           className="text-center font-display text-section uppercase text-ink dark:text-on-dark"
         />
 
-        <MaskReveal
-          as="p"
-          lines={[intro]}
-          stagger={{ amount: 0.6 }}
-          className="mt-5xl max-w-[830px] text-large text-ink dark:text-on-dark"
-        />
+        <InteractiveIntro />
 
         <EntryGroup title="Education" entries={education} />
         <EntryGroup title="Organization" entries={organization} />
@@ -142,9 +246,19 @@ function About() {
                 {link.label}
               </ArrowLink>
             ))}
+
+            <ArrowLink
+              onClick={() => setResumeOpen(true)}
+              arrowClassName="size-[13px]"
+              className="text-name text-ink dark:text-on-dark underline"
+            >
+              {RESUME.label}
+            </ArrowLink>
           </nav>
         </div>
       </div>
+
+      {resumeOpen && <ResumeCard onClose={closeResume} />}
     </section>
   )
 }
