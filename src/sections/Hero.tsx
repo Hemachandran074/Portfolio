@@ -44,7 +44,7 @@ function Hero() {
           </p>
         </div>
 
-        <div className="absolute inset-x-0 bottom-hero-y z-20 grid grid-cols-[1fr_auto_1fr] items-end gap-base px-hero-x max-[520px]:grid-cols-1 max-[520px]:justify-items-center max-[520px]:gap-lg">
+        <div className="absolute inset-x-0 bottom-hero-y z-40 grid grid-cols-[1fr_auto_1fr] items-end gap-base px-hero-x max-[520px]:grid-cols-1 max-[520px]:justify-items-center max-[520px]:gap-lg">
           <p className="flex items-baseline gap-meta whitespace-nowrap text-nav-item leading-body font-medium text-on-dark max-[520px]:order-2">
             <span className="opacity-[0.72]">Last Updated</span>
             <span>{LAST_UPDATED}</span>

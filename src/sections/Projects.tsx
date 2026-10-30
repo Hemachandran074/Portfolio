@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, type CSSProperties } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -9,64 +9,49 @@ import ProjectDetail from '../components/ProjectDetail'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-/** How small a card gets once it is fully covered by the next one. */
-const COVERED_SCALE = 0.92
-
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
- * Projects page (1440x1973 reference).
- * White background, centered Display/Section heading over a Body/Subtitle
- * description, then the 861x487 thumbnails.
+ * Projects showcase section with Bento Grid structure:
+ * Displays a 2-column bento grid of project cards matching the visual design.
+ * Each card features a prominent media showcase area and a distinct gray
+ * footer bar with the project name rendered in font Medium (Delight Medium).
  *
- * The cards stack on scroll: each one is `position: sticky` at a top offset
- * that steps down by `--spacing-stack-peek` per index, so a card pins, the
- * next rises over it, and a thin strip of every covered card stays visible.
- * The stacking itself is pure CSS, so it survives without JS; ScrollTrigger
- * only adds the depth cue, scaling a card down as the next one covers it.
- *
- * Note: `position: sticky` breaks if any ancestor clips overflow, so this
- * section and its wrappers must stay free of `overflow-hidden`.
+ * Clicking any card triggers the interactive ProjectDetail modal dialog.
  */
 function Projects() {
   const [active, setActive] = useState<Project | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
 
   const closeDetail = useCallback(() => setActive(null), [])
 
   useGSAP(
     () => {
-      const root = sectionRef.current
+      const root = gridRef.current
       if (!root || prefersReducedMotion()) return
 
-      const wrappers = Array.from(
-        root.querySelectorAll<HTMLElement>('[data-stack-card]'),
-      )
-      const inners = Array.from(
-        root.querySelectorAll<HTMLElement>('[data-stack-inner]'),
-      )
+      const cards = root.querySelectorAll('[data-bento-card]')
+      if (!cards.length) return
 
-      inners.forEach((inner, index) => {
-        const next = wrappers[index + 1]
-        if (!next) return
-
-        gsap.to(inner, {
-          scale: COVERED_SCALE,
-          ease: 'none',
+      gsap.fromTo(
+        cards,
+        { autoAlpha: 0, y: 32 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          stagger: 0.12,
           scrollTrigger: {
-            trigger: next,
-            // From the moment the next card appears until it reaches its own
-            // pinned offset, read off its resolved sticky `top`.
-            start: 'top bottom',
-            end: () =>
-              `top ${parseFloat(getComputedStyle(next).top) || 0}`,
-            scrub: true,
-            invalidateOnRefresh: true,
+            trigger: root,
+            start: 'top 85%',
+            once: true,
           },
-        })
-      })
+        },
+      )
     },
     { scope: sectionRef },
   )
@@ -97,22 +82,21 @@ function Projects() {
         className="mt-[calc(clamp(4px,0.694vw,10px)*-1)] px-lg text-center text-subtitle text-ink dark:text-on-dark"
       />
 
-      <div className="mx-auto mt-projects-lead w-full max-w-[901px] px-lg">
-        {projects.map((project, index) => (
-          <div
-            key={project.id}
-            data-stack-card
-            style={{ '--i': index } as CSSProperties}
-            className="sticky top-[calc(var(--spacing-stack-top)+var(--i)*var(--spacing-stack-peek))] mb-card-gap last:mb-0 motion-reduce:static"
-          >
+      <div
+        ref={gridRef}
+        className="mx-auto mt-projects-lead w-full max-w-[1040px] px-lg"
+      >
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 md:gap-8">
+          {projects.map((project) => (
             <div
-              data-stack-inner
-              className="origin-top will-change-transform"
+              key={project.id}
+              data-bento-card
+              className="will-change-transform"
             >
               <ProjectCard project={project} onOpen={setActive} />
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {active && <ProjectDetail project={active} onClose={closeDetail} />}

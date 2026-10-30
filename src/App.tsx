@@ -5,6 +5,7 @@ import SmoothScroll from './components/SmoothScroll'
 import Hero from './sections/Hero'
 import Projects from './sections/Projects'
 import About from './sections/About'
+import BottomBlur from './components/BottomBlur'
 
 function App() {
   /**
@@ -23,6 +24,8 @@ function App() {
       <Hero />
       <Projects />
       <About />
+
+      <BottomBlur />
 
       {!revealed && <Preloader onComplete={reveal} />}
     </SmoothScroll>

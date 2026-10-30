@@ -45,8 +45,8 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 'Governance Grpah Builder',
-    title: 'Governance Grpah Builder',
+    id: 'Governance Graph Builder',
+    title: 'Governance Graph Builder',
     subtitle: 'Realtime observability · 2026',
     blurb: 'Traces, logs and metrics in one honest timeline.',
     body: [

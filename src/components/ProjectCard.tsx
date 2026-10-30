@@ -1,4 +1,5 @@
 import type { Project } from '../data/projects'
+import { ArrowUpRightIcon } from './icons'
 
 type ProjectCardProps = {
   project: Project
@@ -6,11 +7,12 @@ type ProjectCardProps = {
 }
 
 /**
- * Project thumbnail: 861x487, radius/xl, interactive/primary fill.
- * Clicking opens the project's detail card.
+ * Bento grid project card:
+ * Features a top media preview with curved bottom edges (rounded-2xl) and
+ * smooth hover scale, nested within a solid gray card container displaying
+ * the project name styled in font Medium (Delight Medium, weight 500).
  *
- * The reference shows these as flat black placeholders, so the thumbnail image
- * and the hover title are additions needed to make the card usable.
+ * Clicking or pressing Enter/Space opens the project detail modal.
  */
 function ProjectCard({ project, onOpen }: ProjectCardProps) {
   return (
@@ -18,34 +20,38 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
       type="button"
       onClick={() => onOpen(project)}
       aria-label={`Open details for ${project.title}`}
-      className="group relative block aspect-[861/487] w-full cursor-pointer overflow-hidden rounded-xl bg-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink dark:focus-visible:outline-on-dark"
+      className="group relative flex w-full cursor-pointer flex-col overflow-hidden rounded-2xl bg-project-card text-left transition-all duration-300 hover:-translate-y-1 hover:bg-[#5a5a5a] hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink dark:bg-[#404040] dark:hover:bg-[#4a4a4a] dark:focus-visible:outline-on-dark"
     >
-      <img
-        src={project.image}
-        alt=""
-        loading="lazy"
-        className="size-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transition-none"
-      />
+      {/* Top media / thumbnail area with curved bottom edges */}
+      <div className="relative aspect-[4/3.5] w-full overflow-hidden rounded-2xl bg-ink">
+        <img
+          src={project.image}
+          alt={project.imageAlt || project.title}
+          loading="lazy"
+          className="size-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none"
+        />
 
-      {/* Scrim, so the title stays legible over any thumbnail. */}
-      <span
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
-      />
+        {/* Subtle hover gradient wash */}
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:transition-none"
+        />
+      </div>
 
-      <span className="absolute inset-x-0 bottom-0 flex translate-y-2 items-end justify-between gap-lg p-2xl text-left opacity-0 transition-[opacity,translate] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 motion-reduce:transition-none">
-        <span>
-          <span className="block font-display text-thumb-title uppercase text-on-dark">
-            {project.title}
-          </span>
-          <span className="mt-1 block text-subtitle text-on-dark/75">
-            {project.subtitle}
-          </span>
+      {/* Bento footer bar with project name in font Medium */}
+      <div className="flex h-14 items-center justify-between px-5 sm:h-16 sm:px-6">
+        <span className="font-sans font-medium text-white text-base tracking-normal sm:text-lg">
+          {project.title}
         </span>
-        <span className="hidden shrink-0 text-button font-semibold text-on-dark sm:block">
-          View project
+
+        {/* Interactive cue on hover/focus */}
+        <span
+          aria-hidden="true"
+          className="shrink-0 text-white/80 opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0"
+        >
+          <ArrowUpRightIcon className="size-4.5" />
         </span>
-      </span>
+      </div>
     </button>
   )
 }

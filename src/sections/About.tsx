@@ -154,7 +154,7 @@ function InteractiveIntro() {
   return (
     <p className="group mt-5xl max-w-[830px] text-large text-ink dark:text-on-dark">
       <span
-        className="cursor-default bg-[#E3DACC] px-[0.08em] py-[0.02em]"
+        className="cursor-default bg-[#E3DACC] px-[0.08em] py-[0.02em] text-ink dark:bg-[#3A342B] dark:text-on-dark"
         onPointerEnter={updatePreview}
         onPointerMove={updatePreview}
         onPointerLeave={hidePreview}

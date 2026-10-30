@@ -567,9 +567,9 @@ function Navbar() {
             data-menu-item
             className="mt-[18px] flex shrink-0 items-center justify-between px-md"
           >
-            <p className="text-caption font-light text-on-dark">
+            {/* <p className="text-caption font-light text-on-dark">
               Design &amp; Built By Me
-            </p>
+            </p> */}
             <button
               type="button"
               onClick={() => setDark((value) => !value)}
