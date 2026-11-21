@@ -21,7 +21,7 @@ function App() {
       {/* Sections render underneath from the first frame, so the wipe uncovers
           a laid-out hero instead of popping one in. */}
       <Navbar />
-      <Hero />
+      <Hero revealed={revealed} />
       <Projects />
       <About />
 
