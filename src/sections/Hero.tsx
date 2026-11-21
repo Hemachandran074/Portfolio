@@ -1,58 +1,50 @@
-import FloatingNav from '../components/FloatingNav'
-
-const LAST_UPDATED = 'August 15 2026'
-
 /**
- * Hero page (1440x1024 reference).
- * Full-bleed gradient clipped by an inner frame inset 10px from the page edges
- * with radius/xl. Centered Display/Hero title + Body/Subtitle, bottom-left
- * "Last Updated" meta in Nav/Item style, and a centered floating navbar.
+ * Bold, Minimalist Portfolio Hero (1440 x 1024 desktop frame reference):
+ * - Pure black page background (#000000).
+ * - Centered wide card (approximately 1050 x 740 px) with thick near-black
+ *   border (#0f1217) and 48px rounded corners.
+ * - Luminous, grainy atmospheric gradient: electric blue at upper-left,
+ *   vivid violet across center/right, soft lavender light in upper-right,
+ *   almost black at bottom-left, finished with tactile film noise.
+ * - Bold display title and centered uppercase subtitle.
  */
 function Hero() {
   return (
-    <main id="home" className="flex min-h-svh flex-col bg-page p-md">
-      <div className="relative isolate flex flex-1 flex-col items-center justify-center overflow-hidden rounded-xl">
-        {/* <div aria-hidden="true" className="hero-gradient absolute inset-0 z-0" /> */}
-        <div aria-hidden="true" className="absolute inset-0 z-0">
-          <img
-            src="/myself2.png"
-            alt=""
-            className="size-full object-cover object-center"
+    <main
+      id="home"
+      className="flex min-h-svh w-full items-center justify-center bg-black p-4 sm:p-6 md:p-8 lg:p-12"
+    >
+      {/* Outer Card: ~1050 x 740 px with near-black (#0f1217) thick border and 48px rounded corners */}
+      <div className="relative flex w-full max-w-[1050px] min-h-[480px] md:h-[740px] md:max-h-[calc(100svh-64px)] items-center justify-center rounded-[32px] bg-[#0f1217] p-3 shadow-2xl sm:rounded-[40px] sm:p-4 md:rounded-[48px] md:p-[16px]">
+        {/* Inner Card Container: Luminous grainy gradient */}
+        <div className="relative isolate flex size-full flex-col items-center justify-center overflow-hidden rounded-[24px] sm:rounded-[28px] md:rounded-[34px]">
+          {/* Luminous atmospheric gradient */}
+          <div aria-hidden="true" className="hero-gradient absolute inset-0 z-0" />
+
+          {/* Subtle noise texture */}
+          <div
+            aria-hidden="true"
+            className="hero-grain pointer-events-none absolute inset-0 z-10 opacity-[0.28] mix-blend-overlay"
           />
-        </div>
-        <div
-          aria-hidden="true"
-          className="hero-grain pointer-events-none absolute inset-0 z-10 opacity-[0.26] mix-blend-overlay"
-        />
 
-        <div className="relative z-20 flex flex-col items-center gap-hero-stack px-lg text-center">
-          <h1 className="font-display text-hero font-bold uppercase text-on-dark">
-            Hemachandran
-          </h1>
-          {/* Each line is its own block so the desktop line breaks match the
-              design exactly; below 700px they go inline and wrap naturally. */}
-          <p className="text-subtitle text-on-dark max-[700px]:max-w-[38ch]">
-            <span className="block max-[700px]:inline">
-              Working at the intersection of AI, design and technology to{' '}
-            </span>
-            <span className="block max-[700px]:inline">
-              create intelligent experiences that feel human,{' '}
-            </span>
-            <span className="block max-[700px]:inline">
-              solve real problems and shape the future of how we build.
-            </span>
-          </p>
-        </div>
+          {/* Centered Hero Content */}
+          <div className="relative z-20 flex flex-col items-center px-6 text-center sm:px-10">
+            <h1 className="font-display text-hero font-bold uppercase tracking-[0.02em] text-on-dark">
+              Hemachandran
+            </h1>
 
-        <div className="absolute inset-x-0 bottom-hero-y z-40 grid grid-cols-[1fr_auto_1fr] items-end gap-base px-hero-x max-[520px]:grid-cols-1 max-[520px]:justify-items-center max-[520px]:gap-lg">
-          <p className="flex items-baseline gap-meta whitespace-nowrap text-nav-item leading-body font-medium text-on-dark max-[520px]:order-2">
-            <span className="opacity-[0.72]">Last Updated</span>
-            <span>{LAST_UPDATED}</span>
-          </p>
-
-          <FloatingNav />
-
-          <span aria-hidden="true" className="max-[520px]:hidden" />
+            <p className="mt-4 max-w-[42ch] text-center text-subtitle leading-relaxed tracking-[0.02em] text-on-dark sm:mt-5 sm:max-w-[48ch]">
+              <span className="block">
+                Working at the intersection of AI, design and technology
+              </span>
+              <span className="block">
+                to create intelligent experiences that feel human,
+              </span>
+              <span className="block">
+                solve real problems and shape the future of how we build.
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </main>
