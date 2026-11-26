@@ -11,6 +11,8 @@ export type Project = {
   body: string[]
   techStack: string[]
   github: string
+  /** Live deployment URL if available. */
+  deployment?: string
   /** Fills the white panel at the top of the detail card. */
   image: string
   imageAlt: string
@@ -37,46 +39,47 @@ export const projects: Project[] = [
     ],
     techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Python', 'FastAPI', 'pgvector', 'PostgreSQL'],
     github: 'https://github.com/hemachandran/atlas',
-    image: './src/assets/projects/TalentMap/TalentMap.jpg',
-    imageAlt: 'TalentMap',
+    image: './src/assets/projects/TalentMap/talentmap-cover.png',
+    imageAlt: 'TalentMap - AI-powered campus recruitment platform',
     gallery: [
       { src: '/placeholder2.png', alt: 'Atlas corpus map view' },
       { src: '/placeholder3.jpg', alt: 'Atlas citation panel with source passages' },
     ],
   },
   {
-    id: 'Governance Graph Builder',
-    title: 'Governance Graph Builder',
+    id: 'GovernIQ',
+    title: 'GovernIQ',
     subtitle: 'Realtime observability · 2026',
     blurb: 'Traces, logs and metrics in one honest timeline.',
     body: [
-      'A governance graph that models agents, models, tools, users, data sources, and policies as connected nodes — making the full composition of any AI agent queryable, auditable, and visualizable in one place. Modern AI agents are compositions: an LLM, an orchestration layer, a set of tools, a memory store, and the data sources they can reach. Those pieces usually live in separate systems — the model in a registry, the tools undocumented, the data in a catalogue. When something goes wrong, no one can reconstruct what was connected to what. This project unifies those facts into a single graph and answers governance questions over it.',
+      'GovernIQ is a governance graph platform that models agents, models, tools, users, data sources, and policies as connected nodes — making the full composition of any AI agent queryable, auditable, and visualizable in one place. Modern AI agents are compositions: an LLM, an orchestration layer, a set of tools, a memory store, and the data sources they can reach. Those pieces usually live in separate systems — the model in a registry, the tools undocumented, the data in a catalogue. When something goes wrong, no one can reconstruct what was connected to what. GovernIQ unifies those facts into a single graph and answers governance questions over it.',
     ],
-    techStack: ['Python', 'FastAPI', 'Neo4j', 'React 19', 'TypeScript', 'Docker', ],
-    github: 'https://github.com/Hemachandran074/GovernanceGraphBuilder',
-    image: './src/assets/projects/GovernanceGraphBuilder/GovernanceGraphBuilder.png',
-    imageAlt: 'Abstract layered composition used as the project thumbnail',
+    techStack: ['Python', 'FastAPI', 'Neo4j', 'React 19', 'TypeScript', 'Docker'],
+    github: 'https://github.com/Hemachandran074/GovernIQ',
+    deployment: 'https://govern-iq-topaz.vercel.app/',
+    image: './src/assets/projects/GovernanceGraphBuilder/governiq-cover.png',
+    imageAlt: 'GovernIQ - AI Governance Graph Platform',
     gallery: [
-      { src: './src/assets/projects/GovernanceGraphBuilder/image1.png', alt: 'Signal unified request timeline' },
-      { src: './src/assets/projects/GovernanceGraphBuilder/image.png', alt: 'Signal trace detail with query breakdown' },
+      { src: './src/assets/projects/GovernanceGraphBuilder/image1.png', alt: 'GovernIQ unified request timeline' },
+      { src: './src/assets/projects/GovernanceGraphBuilder/image.png', alt: 'GovernIQ trace detail with query breakdown' },
     ],
   },
   {
-    id: 'loom',
-    title: 'Loom',
-    subtitle: 'Design system tooling · 2025',
-    blurb: 'Design tokens that survive the trip to production.',
+    id: 'hems',
+    title: 'HEMS',
+    subtitle: 'HR & Employee Management System · 2026',
+    blurb: 'A modern Soft SaaS dashboard managing teams, projects, and payroll.',
     body: [
-      'Loom reads a Figma library and emits typed tokens, CSS custom properties and a documentation site from one source.',
-      'The interesting part is drift detection: it diffs the published tokens against what the codebase actually uses and opens a pull request when a value moves. Teams stop hand-syncing spacing scales and start reviewing them.',
+      'HEMS is a modern, "Soft SaaS" HR and employee management dashboard built with Next.js 14, Tailwind CSS, Supabase (PostgreSQL), and Framer Motion. Designed with a clean pastel-gradient aesthetic and glassmorphic UI, it streamlines day-to-day people operations, hiring, and project tracking in one unified interface.',
+      'Core features include real-time team directories with role-based access control, interactive Kanban task and project tracking with gallery views, automated payroll calculations with visual histories, and a talent scout pipeline featuring drag-and-drop candidate management.',
     ],
-    techStack: ['Node', 'TypeScript', 'Figma API', 'Tailwind CSS', 'Vite'],
-    github: 'https://github.com/hemachandran/loom',
-    image: '/placeholder3.jpg',
-    imageAlt: 'Abstract layered composition used as the project thumbnail',
+    techStack: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'Framer Motion', 'Recharts'],
+    github: 'https://github.com/lateshmass2-pixel/hr',
+    image: './src/assets/projects/HEMS/ProjectPlaceholder.png',
+    imageAlt: 'HEMS - HR Employee Management System dashboard preview',
     gallery: [
-      { src: '/placeholder4.png', alt: 'Loom token documentation site' },
-      { src: '/placeholder1.png', alt: 'Loom drift-detection pull request' },
+      // { src: './src/assets/projects/HEMS/ProjectPlaceholder.png', alt: 'HEMS dashboard preview' },
+      // { src: '/placeholder4.png', alt: 'HEMS candidate and project management view' },
     ],
   },
   {
@@ -90,8 +93,8 @@ export const projects: Project[] = [
     ],
     techStack: ['WebGL', 'TypeScript', 'GSAP', 'TensorFlow.js'],
     github: 'https://github.com/hemachandran/drift',
-    image: '/placeholder4.png',
-    imageAlt: 'Abstract layered composition used as the project thumbnail',
+    image: './src/assets/projects/Drift/drift-cover.png',
+    imageAlt: 'Drift - Generative interaction study',
     gallery: [
       { src: '/placeholder1.png', alt: 'Drift adaptive density study' },
       { src: '/placeholder2.png', alt: 'Drift attention heatmap overlay' },

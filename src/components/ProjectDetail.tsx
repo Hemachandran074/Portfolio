@@ -135,15 +135,29 @@ function ProjectDetail({ project, onClose }: ProjectDetailProps) {
                   {project.subtitle}
                 </p>
 
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-3xl inline-flex min-h-[41px] items-center gap-md rounded-lg bg-ink px-2xl py-md text-button font-semibold text-on-dark transition-opacity duration-250 hover:opacity-85 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-dark"
-                >
-                  Github
-                  <ArrowUpRightIcon />
-                </a>
+                <div className="mt-3xl flex flex-wrap gap-md">
+                  {project.deployment && (
+                    <a
+                      href={project.deployment}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex min-h-[41px] items-center gap-md rounded-lg bg-on-dark px-2xl py-md text-button font-semibold text-ink transition-opacity duration-250 hover:opacity-85 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-dark"
+                    >
+                      Live Demo
+                      <ArrowUpRightIcon />
+                    </a>
+                  )}
+
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex min-h-[41px] items-center gap-md rounded-lg bg-ink px-2xl py-md text-button font-semibold text-on-dark transition-opacity duration-250 hover:opacity-85 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-dark"
+                  >
+                    Github
+                    <ArrowUpRightIcon />
+                  </a>
+                </div>
               </div>
 
               <div className="min-[900px]:flex-1">
