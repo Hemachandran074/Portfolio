@@ -125,15 +125,15 @@ function Hero({ revealed = true }: HeroProps) {
   return (
     <main
       id="home"
-      className="flex min-h-svh w-full items-center justify-center bg-black p-4 sm:p-6 md:p-8 lg:p-12"
+      className="flex min-h-svh w-full items-center justify-center bg-black p-3 sm:p-6 md:p-8 lg:p-12"
     >
       {/* Outer Card: ~1050 x 740 px with near-black (#0f1217) thick border and 48px rounded corners */}
       <div
         ref={cardRef}
-        className="relative flex w-full max-w-[1050px] min-h-[480px] md:h-[740px] md:max-h-[calc(100svh-64px)] items-center justify-center rounded-[32px] bg-[#0f1217] p-3 shadow-2xl sm:rounded-[40px] sm:p-4 md:rounded-[48px] md:p-[16px]"
+        className="relative flex flex-col w-full max-w-[1050px] h-[min(740px,calc(100svh-1.5rem))] min-h-[460px] sm:h-[min(740px,calc(100svh-3rem))] md:h-[740px] md:max-h-[calc(100svh-64px)] rounded-[28px] bg-[#0f1217] p-2.5 shadow-2xl sm:rounded-[38px] sm:p-3.5 md:rounded-[48px] md:p-[16px]"
       >
-        {/* Inner Card Container: Luminous grainy gradient */}
-        <div className="relative isolate flex size-full flex-col items-center justify-center overflow-hidden rounded-[24px] sm:rounded-[28px] md:rounded-[34px]">
+        {/* Inner Card Container: Luminous grainy gradient filling the entire card interior */}
+        <div className="relative isolate flex flex-1 w-full flex-col items-center justify-center overflow-hidden rounded-[20px] sm:rounded-[28px] md:rounded-[34px] px-4 py-8 sm:px-8 sm:py-12">
           {/* Luminous atmospheric gradient */}
           <div aria-hidden="true" className="hero-gradient absolute inset-0 z-0" />
 
@@ -144,25 +144,25 @@ function Hero({ revealed = true }: HeroProps) {
           />
 
           {/* Centered Hero Content */}
-          <div className="relative z-20 flex flex-col items-center px-6 text-center sm:px-10">
+          <div className="relative z-20 flex flex-col items-center px-4 text-center sm:px-8">
             <h1
               ref={titleRef}
-              className="font-display text-hero font-bold uppercase tracking-[0.02em] text-on-dark"
+              className="font-display text-hero font-bold uppercase tracking-[0.02em] text-on-dark py-1"
             >
               Hemachandran
             </h1>
 
             <p
               ref={subtitleRef}
-              className="mt-4 max-w-[42ch] text-center text-subtitle leading-relaxed tracking-[0.02em] text-on-dark sm:mt-5 sm:max-w-[48ch]"
+              className="mt-3 sm:mt-5 max-w-[34ch] sm:max-w-[48ch] text-center text-subtitle leading-relaxed tracking-[0.02em] text-on-dark/95"
             >
-              <span className="block">
-                Working at the intersection of AI, design and technology
+              <span className="inline sm:block">
+                Working at the intersection of AI, design and technology{' '}
               </span>
-              <span className="block">
-                to create intelligent experiences that feel human,
+              <span className="inline sm:block">
+                to create intelligent experiences that feel human,{' '}
               </span>
-              <span className="block">
+              <span className="inline sm:block">
                 solve real problems and shape the future of how we build.
               </span>
             </p>
