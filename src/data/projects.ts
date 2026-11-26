@@ -1,3 +1,10 @@
+import talentMapCover from '../assets/projects/TalentMap/talentmap-cover.png'
+import governIqCover from '../assets/projects/GovernanceGraphBuilder/governiq-cover.png'
+import governIqImage1 from '../assets/projects/GovernanceGraphBuilder/image1.png'
+import governIqImage2 from '../assets/projects/GovernanceGraphBuilder/image.png'
+import hemsCover from '../assets/projects/HEMS/ProjectPlaceholder.png'
+import cyberSentryCover from '../assets/projects/CyberSentry/cybersentry-cover.png'
+
 export type Project = {
   /** Stable key, also used as the detail dialog's element id. */
   id: string
@@ -39,12 +46,9 @@ export const projects: Project[] = [
     ],
     techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Python', 'FastAPI', 'pgvector', 'PostgreSQL'],
     github: 'https://github.com/hemachandran/atlas',
-    image: './src/assets/projects/TalentMap/talentmap-cover.png',
+    image: talentMapCover,
     imageAlt: 'TalentMap - AI-powered campus recruitment platform',
-    gallery: [
-      { src: '/placeholder2.png', alt: 'Atlas corpus map view' },
-      { src: '/placeholder3.jpg', alt: 'Atlas citation panel with source passages' },
-    ],
+    gallery: [],
   },
   {
     id: 'GovernIQ',
@@ -57,11 +61,11 @@ export const projects: Project[] = [
     techStack: ['Python', 'FastAPI', 'Neo4j', 'React 19', 'TypeScript', 'Docker'],
     github: 'https://github.com/Hemachandran074/GovernIQ',
     deployment: 'https://govern-iq-topaz.vercel.app/',
-    image: './src/assets/projects/GovernanceGraphBuilder/governiq-cover.png',
+    image: governIqCover,
     imageAlt: 'GovernIQ - AI Governance Graph Platform',
     gallery: [
-      { src: './src/assets/projects/GovernanceGraphBuilder/image1.png', alt: 'GovernIQ unified request timeline' },
-      { src: './src/assets/projects/GovernanceGraphBuilder/image.png', alt: 'GovernIQ trace detail with query breakdown' },
+      { src: governIqImage1, alt: 'GovernIQ unified request timeline' },
+      { src: governIqImage2, alt: 'GovernIQ trace detail with query breakdown' },
     ],
   },
   {
@@ -75,12 +79,9 @@ export const projects: Project[] = [
     ],
     techStack: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'Framer Motion', 'Recharts'],
     github: 'https://github.com/lateshmass2-pixel/hr',
-    image: './src/assets/projects/HEMS/ProjectPlaceholder.png',
+    image: hemsCover,
     imageAlt: 'HEMS - HR Employee Management System dashboard preview',
-    gallery: [
-      // { src: './src/assets/projects/HEMS/ProjectPlaceholder.png', alt: 'HEMS dashboard preview' },
-      // { src: '/placeholder4.png', alt: 'HEMS candidate and project management view' },
-    ],
+    gallery: [],
   },
   {
     id: 'cybersentry',
@@ -93,7 +94,7 @@ export const projects: Project[] = [
     ],
     techStack: ['Python 3.11', 'Apache Kafka', 'OpenSearch', 'PostgreSQL', 'Redis', 'Docker', 'MLflow'],
     github: 'https://github.com/Hemachandran074/CyberSentry',
-    image: './src/assets/projects/CyberSentry/cybersentry-cover.png',
+    image: cyberSentryCover,
     imageAlt: 'CyberSentry - Autonomous SOC & Threat Detection Platform',
     gallery: [],
   },
